@@ -8,7 +8,7 @@ class SearchProvider extends ChangeNotifier {
   final ApiService apiService;
 
   SearchProvider({required this.apiService, required key}) {
-    _fetchAllSearch(key);
+    fetchAllSearch(key);
   }
 
   late SearchResponse _searchResult;
@@ -21,7 +21,7 @@ class SearchProvider extends ChangeNotifier {
 
   ResultState get state => _state;
 
-  Future<dynamic> _fetchAllSearch(key) async {
+  Future<dynamic> fetchAllSearch(key) async {
     try {
       _state = ResultState.loading;
       notifyListeners();

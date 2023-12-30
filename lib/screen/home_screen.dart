@@ -39,9 +39,30 @@ class _HomeScreen extends State<HomeScreen> {
             },
           );
         } else if (state.state == ResultState.error) {
-          return Center(
-            child: Material(
-              child: Text(state.message),
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: const Center(
+              child: Material(
+                child:Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.sentiment_dissatisfied_outlined,
+                      color: Colors.grey,
+                      size: 100,
+                    ),
+                    DefaultTextStyle(
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      child: Text("Gagal tersambung dengan Internet!"),
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         } else {

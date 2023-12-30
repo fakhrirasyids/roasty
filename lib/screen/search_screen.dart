@@ -16,6 +16,20 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreen extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
+  late SearchProvider _searchProvider;
+
+  @override
+  void initState() {
+    super.initState();
+     _searchProvider = SearchProvider(apiService: ApiService(), key: _controller.text);
+
+     _controller.addListener(_onTextChanged);
+  }
+
+  void _onTextChanged() {
+    // Update the key in SearchProvider and trigger data fetch
+    _searchProvider.fetchAllSearch(_controller.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +74,7 @@ class _SearchScreen extends State<SearchScreen> {
                 /* if has data input */
                 child: _controller.text.isNotEmpty
                     ? ChangeNotifierProvider<SearchProvider>(
-                        create: (context) => SearchProvider(
-                          apiService: ApiService(),
-                          key: _controller.text,
-                        ),
+                        create: (context) => _searchProvider,
                         child: Consumer<SearchProvider>(
                           builder: (context, state, _) {
                             /* load data */
@@ -166,6 +177,7 @@ class _SearchScreen extends State<SearchScreen> {
 
   @override
   void dispose() {
+    _controller.removeListener(_onTextChanged);
     _controller.dispose();
     super.dispose();
   }
